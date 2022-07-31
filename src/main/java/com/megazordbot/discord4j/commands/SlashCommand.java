@@ -5,7 +5,6 @@ import discord4j.discordjson.json.ApplicationCommandOptionData;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Set;
 
 public interface SlashCommand {
 
@@ -15,5 +14,7 @@ public interface SlashCommand {
 
     Mono<Void> handle(ChatInputInteractionEvent event);
 
-    List<ApplicationCommandOptionData> getOptions();
+    default List<ApplicationCommandOptionData> getOptions() {
+        return List.of();
+    };
 }

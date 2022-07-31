@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class GlobalCommandRegister implements ApplicationRunner {
+public class ClientCommandRegister implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestClient client;
     private final ApplicationContext applicationContext;
 
-    public GlobalCommandRegister(RestClient client, ApplicationContext applicationContext) {
+    public ClientCommandRegister(RestClient client, ApplicationContext applicationContext) {
         this.client = client;
         this.applicationContext = applicationContext;
     }
@@ -35,10 +35,11 @@ public class GlobalCommandRegister implements ApplicationRunner {
         applicationContext.getBeansOfType(SlashCommand.class).values()
                 .forEach(commandClass -> commands.add(addCommand(commandClass)));
 
-        applicationService.bulkOverwriteGlobalApplicationCommand(applicationId, commands)
-                .doOnNext(ignore -> logger.debug("Successfully registered Global Commands"))
-                .doOnError(e -> logger.error("Failed to register global commands", e))
-                .subscribe();
+        client.getGuilds().collectList().blockOptional().orElseThrow().forEach(guild ->
+                applicationService.bulkOverwriteGuildApplicationCommand(applicationId, guild.id().asLong(), commands)
+                .doOnNext(ignore -> logger.debug("Successfully registered Client Commands"))
+                .doOnError(e -> logger.error("Failed to register Client commands", e))
+                .subscribe());
     }
 
     private ApplicationCommandRequest addCommand(SlashCommand slashCommand) {
@@ -47,7 +48,6 @@ public class GlobalCommandRegister implements ApplicationRunner {
                 .description(slashCommand.getDescription())
                 .addAllOptions(slashCommand.getOptions())
                 .build();
-
     }
 
 }

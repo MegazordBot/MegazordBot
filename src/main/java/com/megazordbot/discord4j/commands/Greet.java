@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Component
-public class GreetCommand implements SlashCommand {
+public class Greet implements SlashCommand {
 
     @Override
     public String getName() {

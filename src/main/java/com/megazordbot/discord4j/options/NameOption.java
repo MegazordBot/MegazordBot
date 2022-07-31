@@ -7,7 +7,7 @@ public class NameOption {
     private NameOption() {}
 
     public static ApplicationCommandOptionData getOption() {
-        return ApplicationCommandOptionData.builder().type(3).name("name").description("Your name").required(true).build();
+        return ApplicationCommandOptionData.builder().type(3).name("url").description("Music URL").required(true).build();
     }
 
 }
