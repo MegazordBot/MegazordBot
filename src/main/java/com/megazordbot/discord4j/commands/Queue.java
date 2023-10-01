@@ -1,5 +1,6 @@
 package com.megazordbot.discord4j.commands;
 
+import com.megazordbot.discord4j.audio.AudioScheduler;
 import com.megazordbot.discord4j.guild.GuildMusicService;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import lombok.RequiredArgsConstructor;
@@ -8,25 +9,27 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-public class Stop implements SlashCommand {
+public class Queue implements SlashCommand {
 
     private final GuildMusicService guildMusicService;
 
     @Override
     public String getName() {
-        return "stop";
+        return "queue";
     }
 
     @Override
     public String getDescription() {
-        return "Stop a music";
+        return "Queue";
     }
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         return event.getInteraction().getGuild()
-                .doOnNext(guild -> guildMusicService.getGuildAudioScheduler(guild).stop())
-                .then(event.reply().withContent("Music stopped and fuck u"));
+                .doOnNext(guild -> {
+                    AudioScheduler scheduler = guildMusicService.getGuildAudioScheduler(guild);
+                    event.reply()
+                            .withContent(scheduler.getQueue()).subscribe();
+                }).then();
     }
-
 }

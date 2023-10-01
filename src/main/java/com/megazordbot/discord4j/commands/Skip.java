@@ -2,31 +2,33 @@ package com.megazordbot.discord4j.commands;
 
 import com.megazordbot.discord4j.guild.GuildMusicService;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
-@RequiredArgsConstructor
-public class Stop implements SlashCommand {
+@AllArgsConstructor
+public class Skip implements SlashCommand {
 
     private final GuildMusicService guildMusicService;
 
     @Override
     public String getName() {
-        return "stop";
+        return "skip";
     }
 
     @Override
     public String getDescription() {
-        return "Stop a music";
+        return "Skip";
     }
+
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         return event.getInteraction().getGuild()
-                .doOnNext(guild -> guildMusicService.getGuildAudioScheduler(guild).stop())
-                .then(event.reply().withContent("Music stopped and fuck u"));
+                .doOnNext(guild -> {
+                    guildMusicService.getGuildAudioScheduler(guild).startNextTrack(true);
+                    event.reply().withContent("Skipped.").subscribe();
+                }).then();
     }
-
 }

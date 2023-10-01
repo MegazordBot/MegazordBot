@@ -25,12 +25,14 @@ public class DiceRoll implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        long sides = event.getOption("number")
+        Long sides = event.getOption("number")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
-                .map(ApplicationCommandInteractionOptionValue::asLong)
-                .orElse(0L);
+                .map(ApplicationCommandInteractionOptionValue::asLong).orElseThrow();
+        if (sides <= 0) {
+            event.reply().withContent("Use a value bigger then 0");
+        }
         return event.reply()
-                .withContent(String.valueOf(RANDOM.nextLong(sides)+1));
+                .withContent(String.valueOf(RANDOM.nextLong(sides))+1);
     }
 
     @Override
