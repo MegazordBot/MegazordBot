@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Random;
 
 @Component
 public class DiceRoll implements SlashCommand {
+
     @Override
     public String getName() {
         return "roll";
@@ -25,12 +25,12 @@ public class DiceRoll implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        Long sides = event.getOption("number")
+        long sides = event.getOption("number")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asLong)
-                .orElse(null);
+                .orElse(0L);
         return event.reply()
-                .withContent(String.valueOf(new Random().nextLong(sides)+1));
+                .withContent(String.valueOf(RANDOM.nextLong(sides)+1));
     }
 
     @Override

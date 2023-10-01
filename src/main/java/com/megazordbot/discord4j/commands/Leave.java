@@ -27,7 +27,7 @@ public class Leave implements SlashCommand {
                 .flatMap(Member::getVoiceState)
                 .flatMap(VoiceState::getChannel)
                 .flatMap(channel -> channel.sendDisconnectVoiceState()
-                        .and(event.reply().withContent("COMI O CU DE QUEM LEU")))
+                        .and(event.reply().withContent("wanna sex?")))
                 .then();
     }
 }

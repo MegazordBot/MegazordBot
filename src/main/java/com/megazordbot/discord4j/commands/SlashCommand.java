@@ -5,8 +5,11 @@ import discord4j.discordjson.json.ApplicationCommandOptionData;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Random;
 
 public interface SlashCommand {
+
+    Random RANDOM = new Random();
 
     String getName();
 

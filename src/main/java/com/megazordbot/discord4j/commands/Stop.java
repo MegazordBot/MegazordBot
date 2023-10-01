@@ -26,7 +26,7 @@ public class Stop implements SlashCommand {
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         return event.getInteraction().getGuild()
                 .doOnNext(guild -> guildMusicService.getGuildAudioPlayer(guild).player.stopTrack()).then(event.reply()
-                        .withContent("VAI TOMA NO CU"));
+                        .withContent("Music stopped and fuck u"));
     }
 
 }

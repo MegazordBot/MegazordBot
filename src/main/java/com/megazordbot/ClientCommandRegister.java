@@ -35,11 +35,10 @@ public class ClientCommandRegister implements ApplicationRunner {
         applicationContext.getBeansOfType(SlashCommand.class).values()
                 .forEach(commandClass -> commands.add(addCommand(commandClass)));
 
-        client.getGuilds().collectList().blockOptional().orElseThrow().forEach(guild ->
-                applicationService.bulkOverwriteGuildApplicationCommand(applicationId, guild.id().asLong(), commands)
-                .doOnNext(ignore -> logger.debug("Successfully registered Client Commands"))
-                .doOnError(e -> logger.error("Failed to register Client commands", e))
-                .subscribe());
+        applicationService.bulkOverwriteGlobalApplicationCommand(applicationId, commands)
+                .doOnNext(ignore -> logger.debug("Successfully registered Global Commands"))
+                .doOnError(e -> logger.error("Failed to register global commands", e))
+                .subscribe();
     }
 
     private ApplicationCommandRequest addCommand(SlashCommand slashCommand) {
