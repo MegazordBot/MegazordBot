@@ -3,12 +3,12 @@ package com.megazordbot.discord4j.options;
 import discord4j.discordjson.json.ApplicationCommandOptionData;
 
 //TODO refatorar
-public class NameOption {
+public class UrlOption {
 
-    private NameOption() {}
+    private UrlOption() {}
 
     public static ApplicationCommandOptionData getOption() {
-        return ApplicationCommandOptionData.builder().type(3).name("name").description("Your name").required(true).build();
+        return ApplicationCommandOptionData.builder().type(3).name("url").description("Music URL").required(true).build();
     }
 
 }

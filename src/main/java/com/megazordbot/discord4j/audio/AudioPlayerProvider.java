@@ -14,8 +14,8 @@ public class AudioPlayerProvider extends AudioProvider {
 
     public AudioPlayerProvider(final AudioPlayer player) {
         super(ByteBuffer.allocate(StandardAudioDataFormats.DISCORD_OPUS.maximumChunkSize()));
-        frame.setBuffer(getBuffer());
         this.player = player;
+        this.frame.setBuffer(getBuffer());
     }
 
     @Override

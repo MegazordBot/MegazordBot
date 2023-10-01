@@ -1,5 +1,6 @@
 package com.megazordbot.discord4j.commands;
 
+import com.megazordbot.discord4j.options.EphemeralOption;
 import com.megazordbot.discord4j.options.NameOption;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
@@ -25,7 +26,7 @@ public class Greet implements SlashCommand {
 
     @Override
     public List<ApplicationCommandOptionData> getOptions() {
-        return List.of(NameOption.getOption());
+        return List.of(NameOption.getOption(), EphemeralOption.getOption());
     }
 
     @Override
@@ -34,9 +35,13 @@ public class Greet implements SlashCommand {
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asString)
                 .orElse(null);
+        Boolean ephemeral = event.getOption("anonymous")
+                .flatMap(ApplicationCommandInteractionOption::getValue)
+                .map(ApplicationCommandInteractionOptionValue::asBoolean)
+                .orElse(false);
 
         return event.reply()
-                .withEphemeral(true)
+                .withEphemeral(ephemeral)
                 .withContent("Hello, " + name);
     }
 }

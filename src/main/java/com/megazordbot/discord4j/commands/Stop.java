@@ -1,6 +1,5 @@
 package com.megazordbot.discord4j.commands;
 
-import com.megazordbot.discord4j.guild.GuildMusicManager;
 import com.megazordbot.discord4j.guild.GuildMusicService;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +24,9 @@ public class Stop implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        GuildMusicManager guildMusicManager = guildMusicService.getGuildAudioPlayer(event.getInteraction().getGuild().block());
-        guildMusicManager.player.stopTrack();
-        return event.reply()
-                .withEphemeral(true)
-                .withContent("VAI TOMA NO CU")
-                .then();
+        return event.getInteraction().getGuild()
+                .doOnNext(guild -> guildMusicService.getGuildAudioPlayer(guild).player.stopTrack()).then(event.reply()
+                        .withContent("VAI TOMA NO CU"));
     }
 
 }
