@@ -25,7 +25,7 @@ public class Shrek implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        int shrekNumber = ThreadLocalRandom.current().nextInt(1, 8);
+        int shrekNumber = RANDOM.nextInt(7)+1;
         log.info("shrek number: " + shrekNumber);
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         return event.reply()

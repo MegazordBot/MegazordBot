@@ -43,7 +43,8 @@ public class Play implements SlashCommand {
         } else {
             String url = event.getOption("url")
                     .flatMap(ApplicationCommandInteractionOption::getValue)
-                    .map(ApplicationCommandInteractionOptionValue::asString).orElseThrow();
+                    .map(ApplicationCommandInteractionOptionValue::asString)
+                    .orElseThrow();
             return event.getInteraction().getGuild()
                     .doOnNext(guild -> {
                         AudioScheduler scheduler = guildMusicService.getGuildAudioScheduler(guild);

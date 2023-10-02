@@ -27,6 +27,10 @@ public class AudioScheduler extends AudioEventAdapter implements AudioLoadResult
         startNextTrack(false);
     }
 
+    private void addPlaylistToQueue(AudioPlaylist audioPlaylist) {
+        queue.addAll(audioPlaylist.getTracks());
+        startNextTrack(false);
+    }
 
     public void startNextTrack(boolean forced) {
         if (audioPlayer.getPlayingTrack() == null || forced) {
@@ -81,13 +85,16 @@ public class AudioScheduler extends AudioEventAdapter implements AudioLoadResult
 
     @Override
     public void playlistLoaded(AudioPlaylist audioPlaylist) {
+        addPlaylistToQueue(audioPlaylist);
     }
 
     @Override
     public void noMatches() {
+        // TODO document why this method is empty
     }
 
     @Override
     public void loadFailed(FriendlyException e) {
+        // TODO document why this method is empty
     }
 }
