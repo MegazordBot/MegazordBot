@@ -32,7 +32,7 @@ public class DiceRoll implements SlashCommand {
             event.reply().withContent("Use a value bigger then 0");
         }
         return event.reply()
-                .withContent(String.valueOf(RANDOM.nextLong(sides))+1);
+                .withContent(String.valueOf(RANDOM.nextLong(sides)+1));
     }
 
     @Override
